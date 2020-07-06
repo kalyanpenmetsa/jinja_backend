@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jinja-backend-svc
+  namespace: jinja-dev
+spec:
+  selector:
+    app: jinja-backend
+  type: LoadBalancer
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 32000
