@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jinja-backend
+  namespace: jinja-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jinja-backend
+  template:
+    metadata:
+      name: jinja-backend
+      labels:
+        app: jinja-backend
+    spec:
+      containers:
+      - name: jinja-backend-container
+        image: penmetsa29/jinja-backend:v1
+        ports:
+        - name: jinja-backend
+          containerPort: 5000
+        resources:
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
