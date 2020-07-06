@@ -1,7 +1,7 @@
 flask
 flask_restful
 jinja2
-yaml
+pyyaml
 uwsgi
 flask_cors
 jinja2_ansible_filters
