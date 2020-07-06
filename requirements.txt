@@ -4,3 +4,4 @@ jinja2
 yaml
 uwsgi
 flask_cors
+jinja2_ansible_filters
