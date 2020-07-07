@@ -32,7 +32,7 @@ def render_jinja(jinja_input, variable_input, variable_type):
             variable_input = json.loads(variable_input)
         elif variable_type == 'yaml':
             variable_input = yaml.load(variable_input)
-        template = Environment(loader=BaseLoader, extensions=[AnsibleCoreFiltersExtension], undefined=StrictUndefined).from_string(jinja_input)
+        template = Environment(loader=BaseLoader, extensions=[AnsibleCoreFiltersExtension], trim_blocks=True, lstrip_blocks=True, undefined=StrictUndefined).from_string(jinja_input)
         output = template.render(variable_input)
     except Exception as error:
         raise
