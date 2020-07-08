@@ -4,9 +4,15 @@ from flask_restful import reqparse
 from jinja2 import Environment, BaseLoader, StrictUndefined
 from jinja2_ansible_filters import AnsibleCoreFiltersExtension
 from flask_cors import CORS
+import logging
+from logging.handlers import RotatingFileHandler
+from flask_swagger import swagger
 
 app = Flask(__name__)
 cors = CORS(app) #Prevents CORS errors
+handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
 
 @app.route("/render_jinja", methods=['POST'])
 def render_jinja():
@@ -15,16 +21,25 @@ def render_jinja():
         parser.add_argument('jinja_input')
         parser.add_argument('jinja_variable')
         args = parser.parse_args()
-        print(args)
         jinja_input, variable_input = args.get("jinja_input"), args.get("jinja_variable")
         variable_type = JsonOrYaml(variable_input)
         output = render_jinja(jinja_input, variable_input, variable_type)
-        print(output)
+        app.logger.info("INFO: Successfully rendered the template. Thank you {}!".format(request.host))
     except Exception as error:
+        app.logger.error("ERROR: {}".format(error))
         abort(400, error)
         raise
     else:
         return output
+
+@app.route("/spec")
+def spec():
+    swag = swagger(app)
+    swag['info']['version'] = "1.0"
+    swag['info']['title'] = "Jinja Renderer"
+    swag['paths']['Jinja Renderer'] = "/render_jinja"
+    swag['paths']['info'] = "/spec"
+    return jsonify(swag)
 
 def render_jinja(jinja_input, variable_input, variable_type):
     try:
