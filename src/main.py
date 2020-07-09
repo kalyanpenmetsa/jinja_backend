@@ -21,7 +21,6 @@ app.logger.addHandler(handler)
 def render_jinja():
     if request.method == "POST":
         try:
-            print(app.root_path)
             parser = reqparse.RequestParser()
             parser.add_argument('jinja_input')
             parser.add_argument('jinja_variable')
