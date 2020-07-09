@@ -5,3 +5,5 @@ pyyaml
 uwsgi
 flask_cors
 jinja2_ansible_filters
+flask_swagger
+pytest

@@ -1,0 +1,20 @@
+interface port-channel 5000
+  description 500.31_31128-05_Po1
+  switchport
+  switchport mode trunk
+  spanning-tree port type network
+  spanning-tree guard root
+  mtu 9216
+  storm-control broadcast level 1.00
+  storm-control multicast level 1.00
+  no shutdown
+interface port-channel 51
+  description 601.43_31128-06_Po2
+  switchport
+  switchport mode trunk
+  spanning-tree port type network
+  spanning-tree guard root
+  mtu 9216
+  storm-control broadcast level 1.00
+  storm-control multicast level 1.00
+  no shutdown

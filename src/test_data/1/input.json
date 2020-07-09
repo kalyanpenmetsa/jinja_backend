@@ -1,0 +1,44 @@
+{
+ "ansible_network_os": "nxos",
+ "cr_details": {
+  "manager_id": "KHansen14",
+  "tinytools_user": "VPenmet1",
+  "tinytools_user_email": "Venkat.Penmetsa1@t-mobile.com"
+ },
+ "device": "N7010-03",
+ "device_type": "ar_router",
+ "integration_type": "ARA_ASA",
+ "interfaces_x": [
+  "Ethernet4/16",
+  "Ethernet4/17"
+ ],
+ "interfaces_y": [
+  "Ethernet4/24",
+  "Ethernet4/25"
+ ],
+ "inv_id": 28145,
+ "inventory_name": "CR000444567",
+ "neighbor_device_x": "31128-05",
+ "neighbor_device_y": "31128-06",
+ "neighbor_interfaces_x": [
+  "Ethernet1/1",
+  "Ethernet1/2"
+ ],
+ "neighbor_interfaces_y": [
+  "Ethernet1/1",
+  "Ethernet1/2"
+ ],
+ "neighbor_portchannel_x": "1",
+ "neighbor_portchannel_y": "2",
+ "neighbor_rack_number_x": "500.31",
+ "neighbor_rack_number_y": "601.43",
+ "portchannel_x": "50",
+ "portchannel_y": "51",
+ "rack_number": "111.41",
+ "vlan_ids": [
+  "115",
+  "117",
+  "116"
+ ],
+ "vlan_ids_string": "115-117"
+}

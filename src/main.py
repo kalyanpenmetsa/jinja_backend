@@ -10,27 +10,35 @@ from flask_swagger import swagger
 
 app = Flask(__name__)
 cors = CORS(app) #Prevents CORS errors
-handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
-app.logger.addHandler(handler)
+app.config.from_pyfile('application.conf', silent=False)
+if not os.path.exists("logs"): os.makedirs("logs")
+handler = RotatingFileHandler(app.config.get("LOG_LOCATION"), maxBytes=10000, backupCount=1)
+handler.setFormatter(logging.Formatter(app.config.get("LOG_FORMAT")))
 app.logger.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
 
-@app.route("/render_jinja", methods=['POST'])
+@app.route("/render_jinja", methods=['GET', 'POST'])
 def render_jinja():
-    try:
-        parser = reqparse.RequestParser()
-        parser.add_argument('jinja_input')
-        parser.add_argument('jinja_variable')
-        args = parser.parse_args()
-        jinja_input, variable_input = args.get("jinja_input"), args.get("jinja_variable")
-        variable_type = JsonOrYaml(variable_input)
-        output = render_jinja(jinja_input, variable_input, variable_type)
-        app.logger.info("INFO: Successfully rendered the template. Thank you {}!".format(request.host))
-    except Exception as error:
-        app.logger.error("ERROR: {}".format(error))
-        abort(400, error)
-        raise
+    if request.method == "POST":
+        try:
+            print(app.root_path)
+            parser = reqparse.RequestParser()
+            parser.add_argument('jinja_input')
+            parser.add_argument('jinja_variable')
+            args = parser.parse_args()
+            jinja_input, variable_input = args.get("jinja_input"), args.get("jinja_variable")
+            variable_type = JsonOrYaml(variable_input)
+            output = render_jinja(jinja_input, variable_input, variable_type)
+            app.logger.info("Successfully rendered the template.")
+        except Exception as error:
+            app.logger.error(error)
+            abort(400, error)
+            raise
+        else:
+            return output
     else:
-        return output
+        app.logger.error("GET Method invoked.")
+        return jsonify({"status": True, "allowed": "POST"})
 
 @app.route("/spec")
 def spec():
