@@ -21,9 +21,6 @@ spec:
         ports:
         - name: jinja-backend
           containerPort: 9090
-        volumeMounts:
-          - name: jinja-backend-config-volume
-            mountPath: /etc/nginx/
         resources:
           limits:
             memory: "2Gi"
@@ -31,8 +28,3 @@ spec:
           requests:
             memory: "1Gi"
             cpu: "500m"
-      volumes:
-        - name: jinja-backend-nginx-volume
-          configMap:
-            defaultMode: 420
-            name: jinja-backend-nginx-conf
