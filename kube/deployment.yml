@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jinja-backend
-  namespace: jinja-dev
+  namespace: jinja
 spec:
   replicas: 1
   selector:
@@ -16,11 +16,14 @@ spec:
         app: jinja-backend
     spec:
       containers:
-      - name: jinja-backend-container
+      - name: jinja-backend
         image: penmetsa29/jinja-backend:v1
         ports:
         - name: jinja-backend
-          containerPort: 5000
+          containerPort: 9090
+        volumeMounts:
+          - name: jinja-backend-config-volume
+            mountPath: /etc/nginx/
         resources:
           limits:
             memory: "2Gi"
@@ -28,3 +31,8 @@ spec:
           requests:
             memory: "1Gi"
             cpu: "500m"
+      volumes:
+        - name: jinja-backend-nginx-volume
+          configMap:
+            defaultMode: 420
+            name: jinja-backend-nginx-conf
