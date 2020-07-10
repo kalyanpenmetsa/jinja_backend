@@ -4,4 +4,4 @@ RUN apk add --no-cache gcc musl-dev linux-headers
 COPY app/ .
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-CMD ["uwsgi", "--socket", "0.0.0.0:4000", "--protocol=http", "-w", "wsgi:app"]
+CMD ["uwsgi", "--protocol=http", "-w", "wsgi:app", "--ini=uwsgi.ini"]
