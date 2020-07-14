@@ -3,6 +3,7 @@ import json, os, sys, yaml, re, io
 from flask_restful import reqparse
 from jinja2 import Environment, BaseLoader, StrictUndefined
 from jinja2_ansible_filters import AnsibleCoreFiltersExtension
+from ansible.plugins.filter import ipaddr
 from flask_cors import CORS
 import logging
 from logging.handlers import RotatingFileHandler
@@ -54,7 +55,9 @@ def render_jinja(jinja_input, variable_input, variable_type):
             variable_input = json.loads(variable_input)
         elif variable_type == 'yaml':
             variable_input = yaml.load(variable_input)
+        ip_filter = ipaddr.FilterModule()
         template = Environment(loader=BaseLoader, extensions=[AnsibleCoreFiltersExtension], trim_blocks=True, lstrip_blocks=True, undefined=StrictUndefined).from_string(jinja_input)
+        template.filters.update(ip_filter.filters())
         output = template.render(variable_input)
     except Exception as error:
         raise
